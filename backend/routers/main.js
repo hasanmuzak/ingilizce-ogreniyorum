@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const kelimeModel = require('../models/kelime_model');
 
+
 router.route('/').get((req,res,next) => {
    kelimeModel.find({}).then(veri => {
        if (!veri) {         
@@ -17,8 +18,8 @@ router.route('/').get((req,res,next) => {
 });
 
 router.route('/ekle').post((req,res,next) => {
-    const {kelime, telaffuz, turkce_anlam, ingilizce_anlam, ornek_cumle1, ornek_cumle2, es_anlam} = req.body;
-    
+    const {kelime, telaffuz, turkce_anlam, ingilizce_anlam, ornek_cumle1, ornek_cumle2, ingiliz_telaffuz, amerikan_telaffuz, tur,  es_anlam} = req.body;
+
     kelimeModel.findOne({kelime}, (err, data) => {
         if(err){
             res.status(500).send(err);
@@ -35,7 +36,10 @@ router.route('/ekle').post((req,res,next) => {
                     ingilizce_anlam,
                     ornek_cumle1,
                     ornek_cumle2,
-                    es_anlam
+                    ingiliz_telaffuz,
+                    amerikan_telaffuz,
+                    es_anlam,
+                    tip : tur
                 });
                 yeni_kelime.save().then(() => {
                     res.send({data : 'Kelime basariyla eklendi!'});

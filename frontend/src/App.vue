@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <ozel-navbar></ozel-navbar>
-    <uyarilar></uyarilar>
     <kelime-tablosu></kelime-tablosu>
   </v-app>
 </template>
@@ -9,10 +8,9 @@
 <script>
 import KelimeTablosu from './components/KelimeTablosu.vue';
 import OzelNavbar from './components/OzelNavbar.vue';
-import Uyarilar from './components/Uyarilar.vue';
 
 export default {
-  components: { KelimeTablosu, OzelNavbar, Uyarilar },
+  components: { KelimeTablosu, OzelNavbar },
   name: 'App',
 };
 </script>

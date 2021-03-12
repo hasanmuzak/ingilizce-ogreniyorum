@@ -39,6 +39,22 @@
                 :rules="[$v.kelime.required, $v.kelime.minLength]"
               ></v-text-field>
             </div>
+            <div class="flex items-center mt-4">
+              <div class="input-span">
+                <span class="text-gray-600 flex items-center">
+                  <v-icon class="mr-3">mdi-filter-variant</v-icon>
+                  Tür
+                </span>
+              </div>
+              <v-select
+                :items="items"
+                @input="$v.tur.$touch()"
+                v-model="tur"
+                placeholder="Kelimeyi yazınız."
+                outlined
+                :rules="[$v.tur.required, $v.tur.minLength]"
+              ></v-select>
+            </div>
             <div class="flex items-center mt-6">
               <div class="input-span">
                 <span class="text-gray-600 flex items-center">
@@ -129,6 +145,36 @@
                 outlined
               ></v-text-field>
             </div>
+            <div class="flex items-center mt-6">
+              <div class="input-span">
+                <span class="text-gray-600 flex items-center">
+                  <v-icon class="mr-3">mdi-code-braces</v-icon>
+                  İngiliz URL
+                </span>
+              </div>
+              <v-text-field
+                v-model="ingiliz_telaffuz"
+                :rules="[$v.ingiliz_telaffuz.required, $v.ingiliz_telaffuz.minLength]"
+                @input="$v.ingiliz_telaffuz.$touch()"
+                placeholder="Kelimenin İngiliz aksanı."
+                outlined
+              ></v-text-field>
+            </div>
+            <div class="flex items-center mt-6">
+              <div class="input-span">
+                <span class="text-gray-600 flex items-center">
+                  <v-icon class="mr-3">mdi-code-braces</v-icon>
+                  Amerikan URL
+                </span>
+              </div>
+              <v-text-field
+                v-model="amerikan_telaffuz"
+                :rules="[$v.amerikan_telaffuz.required, $v.amerikan_telaffuz.minLength]"
+                @input="$v.amerikan_telaffuz.$touch()"
+                placeholder="Kelimenin Amerikan aksanı."
+                outlined
+              ></v-text-field>
+            </div>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -156,6 +202,7 @@ export default {
       error : null,
       loading : null,
       dialog: false,
+      tur : "",
       kelime: "",
       telaffuz: "",
       anlam: "",
@@ -163,6 +210,9 @@ export default {
       es_anlam: "",
       ornek_cumle1: "",
       ornek_cumle2: "",
+      ingiliz_telaffuz : '',
+      amerikan_telaffuz : '',
+      items: ['Isim (Noun)', 'Sıfat (Adjective)', 'Zarf (Adverb)', 'Fiil (Verb)'],
     };
   },
   methods: {
@@ -177,11 +227,14 @@ export default {
           es_anlam: this.es_anlam,
           ornek_cumle1: this.ornek_cumle1,
           ornek_cumle2: this.ornek_cumle2,
+          ingiliz_telaffuz : this.ingiliz_telaffuz,
+          amerikan_telaffuz : this.amerikan_telaffuz,
+          tur : this.tur
         })
         .then((data) => {
           console.log(data.response);
           this.error = false
-          this.loading = true
+          this.loading = false
         })
         .catch((err) => {
           if(err.response.status === 503){
@@ -219,7 +272,21 @@ export default {
     ornek_cumle2 : {
       required,
       minLength : minLength(10)
+    },
+
+    ingiliz_telaffuz : {
+      required,
+      minLength : minLength(10)
+    },
+    amerikan_telaffuz : {
+      required,
+      minLength : minLength(10)
+    },
+    tur : {
+      required,
+      minLength : minLength(3)
     }
+
   }
 };
 </script>
@@ -231,11 +298,17 @@ export default {
 .input-span {
   width: 180px;
 }
+.v-select__selections{
+  padding: 0 !important;
+}
 .v-input__slot {
   margin-bottom: 0;
   min-height: 40px !important;
 }
 .v-text-field__details {
   display: none;
+}
+.v-text-field--full-width .v-input__prepend-outer, .v-text-field--full-width .v-input__prepend-inner, .v-text-field--full-width .v-input__append-inner, .v-text-field--full-width .v-input__append-outer, .v-text-field--enclosed .v-input__prepend-outer, .v-text-field--enclosed .v-input__prepend-inner, .v-text-field--enclosed .v-input__append-inner, .v-text-field--enclosed .v-input__append-outer{
+  margin-top: 5px !important;
 }
 </style>
